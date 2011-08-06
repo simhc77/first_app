@@ -1,5 +1,6 @@
 FirstApp::Application.routes.draw do
 
+  get '/users/new'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -59,4 +60,5 @@ FirstApp::Application.routes.draw do
   # match ':controller(/:action(/:id(.:format)))'
   match '/contact', :to => 'page#contact'
   match '/home',     :to => 'page#home'
+  match '/signup',   :to => 'users#new'
 end
