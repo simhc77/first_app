@@ -30,7 +30,28 @@ describe User do
     addresses = %w[user@foo.com THE_USER@foo.com first.last@foo.jp]
     addresses.each do |address|
       valid_email_user = User.new(@attr.merge(:email => address))
-      valid_email_user.shoud be_valid
+      valid_email_user.should be_valid
     end
+  end
+
+  it "should not accept invalid email addresses" do
+    addresses = %w[user@foo,com]
+    addresses.each  do |address|
+      invalid_email_user = User.new(@attr.merge(:email => address))
+      invalid_email_user.should_not be_valid
+    end
+  end
+
+  it "should reject duplicate email address" do
+    User.create!(@attr)
+    user_with_duplicate_email = User.new(@attr)
+    user_with_duplicate_email.should_not be_valid
+  end
+
+  it "should reject email address identical up to case" do
+    upcase_email = @attr[:email].upcase
+    User.create!(@attr.merge(:email => upcase_email))
+    user_with_duplicate_mail = User.new(@attr)
+    user_with_duplicate_mail.should_not be_valid
   end
 end
